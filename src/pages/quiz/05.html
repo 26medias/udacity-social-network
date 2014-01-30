@@ -1,0 +1,79 @@
+<style type="text/css">
+	table td {
+		vertical-align:	middle;
+	}
+</style>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Quiz 5</h3>
+	</div>
+	<div class="panel-body">
+		
+	</div>
+	<div class="panel-footer">
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<label for="">Intensity: </label>
+					</td>
+					<td>
+						<div class="input-group">
+							<input type="text" placeholder="Intensity (integer,  [2-255])" style="width: 200px;" class="form-control" value="8" id="val-input">
+							<span class="input-group-btn">
+								<button class="btn btn-danger" type="button" id="btn-apply">Apply</button>
+							</span>
+						</div>
+					</td>
+					<td>
+						<button class="btn btn-primary" type="button" id="btn-reset">Reset</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+	function naive(a, b) {
+		var x = a;
+		var y = b;
+		var z = 0;
+		while (x > 0) {
+			z = z + y;
+			x = x - 1;
+		}
+		return z;
+	}
+	
+	function run() {
+		var i;
+		var a;
+		var b;
+		var n 	= 10;
+		var d	= 3;
+		for (i=0;i<n;i++) {
+			a = i;
+			b = i+d;
+			console.log("output["+a+";"+b+"]",naive(a,b));
+		}
+	}
+	
+	run();
+	/*
+	def naive(a, b):
+	    x = a
+	    y = b
+	    z = 0
+	    while x > 0:
+	        z = z + y
+	        x = x - 1
+	    return z
+	*/
+	
+</script>
+
+

@@ -1,0 +1,15 @@
+{
+	"name":			"quiz",
+	"files":		{
+		"05.html": {
+			"title":	"Quiz 5",
+			"filename":	"quiz/05.html"
+		}
+	},
+	"template":		"main.html",
+	"dependencies":	[
+		"jquery",
+		"bootstrap",
+		"examples"
+	]
+}

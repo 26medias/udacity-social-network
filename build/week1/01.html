@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Screenjs by Fleetwit">
+		<meta name="author" content="Julien Loutre">
+		<link rel="shortcut icon" href="favicon.png">
+		
+		<title>Week1: Intensity - Image and video processing: From Mars to Hollywood with a stop at the hospital</title>
+		
+		
+		<script src="../libs/jquery/jquery.js"></script>
+<script src="../libs/bootstrap/./dist/js/bootstrap.js"></script>
+<script src="../libs/json2/json2.js"></script>
+<script src="../libs/underscore/underscore-min.js"></script>
+<script src="../libs/imageProcessing/imageProcessing.js"></script>
+		<link href="../libs/bootstrap/./dist/css/bootstrap.css" rel="stylesheet">
+<link href="../libs/examples/custom.css" rel="stylesheet">
+		
+	</head>
+	<body>
+		<a href="https://github.com/26medias/coursera-image-processing"><img style="position: absolute; position: fixed; top: 0; right: 0; border: 0; z-index:5000;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+		
+		<div id="wrap">
+		
+			<!-- Fixed navbar -->
+			<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">Duke U Image Processing</a>
+					</div>
+					<div class="collapse navbar-collapse">
+						<ul class="nav navbar-nav">
+							<li ><a href="../index.html">What is that?</a></li>
+							<li class="dropdown active">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Week 1 <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="../week1/01.html">Intensity</a></li>
+									<li><a href="../week1/02.html">Average</a></li>
+									<li><a href="../week1/04.html">Pixelize</a></li>
+								</ul>
+							</li>
+							<li><a href="mailto:julien@twenty-six-medias.com">Contact</a></li>
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		
+			<!-- Begin page content -->
+			<div class="container" style="padding-top: 80px;">
+				<style type="text/css">
+	canvas {
+		margin:	0 auto;
+	}
+	table td {
+		vertical-align:	middle;
+	}
+</style>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Week 1 - Intensity</h3>
+	</div>
+	<div class="panel-body">
+		<p>Write a computer program capable of reducing the number of intensity levels in an image from 256 to 2, in integer powers of 2. The desired number of intensity levels needs to be a variable input to your program.</p>
+		<div id="image-container"></div>
+		<!-- Canvas will be created here by imageProcessing() -->
+	</div>
+	<div class="panel-footer">
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<label for="">Intensity: </label>
+					</td>
+					<td>
+						<div class="input-group">
+							<input type="text" placeholder="Intensity (integer,  [2-255])" style="width: 200px;" class="form-control" value="8" id="val-input">
+							<span class="input-group-btn">
+								<button class="btn btn-danger" type="button" id="btn-apply">Apply</button>
+							</span>
+						</div>
+					</td>
+					<td>
+						<button class="btn btn-primary" type="button" id="btn-reset">Reset</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	// Wait for jQuery to load
+	$(function() {
+		/*
+		*	imageProcessing() is an image manipulation class that I'm building specifically for
+		*	the coursera course "Image and video processing: From Mars to Hollywood with a stop at the hospital" (https://www.coursera.org/course/images).
+		*	It provides some useful utilities to make the examples more clear and more intuitive by abstracting the boring part of the code (setting up Canvas, getting pixel values, ...)
+		*/
+		
+		// We load the image, and make it grayscale as soon as it's loaded
+		var image = new imageProcessing($('#image-container'), {
+			src:	"../public/canvas.png",
+			onBuild:	function() {
+				image.grayscale();
+			}
+		});
+		
+		
+		// When the user clicks on the "apply" button
+		$('#btn-apply').click(function() {
+			// Reset the image, to remove any previous effect
+			image.reset(function() {
+				
+				// Grayscale the image
+				image.grayscale();
+				
+				// Get the value, convert to an numeric value, and floor it (17.5->17, 11.9->11)
+				var value = Math.floor($('#val-input').val()*1);
+				
+				// Check the value
+				if (!value || value < 2 || value > 255) {
+					alert("Please enter an intensity between 2 and 255");
+					return false;
+				}
+				
+				// Scan the image, pixel by pixel
+				image.scan(function(x, y, rgba) {
+					
+					var transform = function(v) {
+						var m = Math.round(256/value);
+						return Math.floor(v/m)*m;
+					}
+					
+					// Change the intensity level
+					image.setPixels(x, y, {
+						r:	transform(rgba.r),
+						g:	transform(rgba.g),
+						b:	transform(rgba.b),
+						a:	rgba.a	// We do not change the Alpha
+					});
+				});
+				image.apply();
+			});
+			
+		});
+		
+		// When the user clicks on the "reset" button
+		$('#btn-reset').click(function() {
+			// We use the reset() function in our imageProcessing instance.
+			image.reset(function() {
+				image.grayscale();
+			});
+		});
+	});
+</script>
+
+			</div>
+		</div>
+		
+		<div id="footer">
+			<div class="container">
+				<p class="text-muted">&copy; Twenty-Six Medias, Inc 2014</p>
+			</div>
+		</div>
+		
+	</body>
+</html>

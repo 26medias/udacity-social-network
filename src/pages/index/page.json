@@ -1,0 +1,15 @@
+{
+	"name":			"index",
+	"files":		{
+		"index.html": {
+			"title":	"Image and video processing: From Mars to Hollywood with a stop at the hospital",
+			"filename":	"index.html"
+		}
+	},
+	"template":		"main.html",
+	"dependencies":	[
+		"jquery",
+		"bootstrap",
+		"examples"
+	]
+}

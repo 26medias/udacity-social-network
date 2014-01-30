@@ -1,0 +1,12 @@
+{
+	"name": "imageProcessing",
+	"version": "1.0.0",
+	"main": [
+		"imageProcessing.js"
+	],
+	"dependencies": {
+		"jquery": 		"latest",
+		"json2": 		"latest",
+		"underscore": 	"latest"
+	}
+}
